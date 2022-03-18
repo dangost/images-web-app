@@ -1,2 +1,2 @@
 all:
-	pyinstaller --onefile app/app.py
+	pyinstaller --onefile application/app.py
