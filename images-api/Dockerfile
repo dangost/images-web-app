@@ -1,12 +1,12 @@
 FROM python:3.10
 
-WORKDIR /api
+WORKDIR /app
 
 COPY pyproject.toml poetry.lock .env /app/
-COPY application/ /app/app
+COPY application/ /app/application
 
 RUN pip install poetry &&\
     poetry config virtualenvs.create false &&\
     poetry install --no-dev
 
-CMD []
+CMD ["poe", "prod"]
