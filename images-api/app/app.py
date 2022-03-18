@@ -1,6 +1,18 @@
 from flask import Flask
 
-app = Flask(__name__)
+from app_config import AppConfig
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app_config = AppConfig()
+    app.config.startup = app_config.startup_config
+    return app
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    __app = create_app()
+    __app.run(
+        host=__app.config.startup.host,
+        port=__app.config.startup.port
+    )
