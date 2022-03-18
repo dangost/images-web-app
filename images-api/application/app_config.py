@@ -2,13 +2,14 @@ import os
 
 from dotenv import load_dotenv
 
-from sql_config import SqlConfig
+from application.sql_config import SqlConfig
 
 
 class AppConfig:
     def __init__(self):
         load_dotenv()
-        self.sql_config = SqlConfig()
+        self.connection = os.getenv("CONNECTION_STRING", default="sqlite:///../data.db")
+        self.sql_config = SqlConfig(self.connection)
 
         self.jwt_secret = os.getenv("JWT_SECRET")
         if not self.jwt_secret:
