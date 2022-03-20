@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 
 from application.common.exceptions import HttpException
 from application.app_config import AppConfig
+from application.images.controller import images_api
+from application.users.controller import users_api
+from application.users.service import UsersService
 
 
 def create_app() -> Flask:
@@ -11,19 +14,20 @@ def create_app() -> Flask:
 
     app_config = AppConfig()
 
-    app_config.sql_config.metadata.create_all(checkfirst=True)
-
     init_services(app, app_config)
     app.config.startup = app_config.startup_config
+
+    app_config.sql_config.metadata.create_all(checkfirst=True)
     return app
 
 
 def init_blueprints(app: Flask):
-    pass
+    app.register_blueprint(users_api)
+    app.register_blueprint(images_api)
 
 
 def init_services(app: Flask, config: AppConfig):
-    pass
+    app.config.users_service = UsersService(config.sql_config, config.jwt_secret)
 
 
 def error_handler(exc: HttpException):
