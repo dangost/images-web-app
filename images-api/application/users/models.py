@@ -7,6 +7,7 @@ class User:
     id: str
     login: str
     email: str
+    profile_description: str
     create_time: datetime
 
 

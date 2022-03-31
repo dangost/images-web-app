@@ -13,6 +13,7 @@ def describe_table(metadata: MetaData):
         Column("id", String, primary_key=True, nullable=False),
         Column("login", String, nullable=False, unique=True),
         Column("email", String, nullable=False, unique=True),
+        Column("profile_description", String, nullable=True),
         Column("password_hash", String, nullable=False),
         Column("create_time", TIMESTAMP, nullable=False)
     )
