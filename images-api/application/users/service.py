@@ -11,7 +11,7 @@ from application.users.exceptions import \
     IncorrectCreditsException, \
     UserNotFoundException, \
     LoginAlreadyExists, \
-    EmailAlreadyExists
+    EmailAlreadyExists, InvalidLoginException
 
 from application.users.models import UserLoginDetails, UserRegistrationDetails, User
 from application.users.repository import UsersSqlRepo
@@ -23,7 +23,11 @@ class UsersService:
         self._jwt_secret = jwt_secret
 
     def create(self, users_registration: UserRegistrationDetails) -> User:
+        if len(users_registration.login) < 3:
+            raise InvalidLoginException(users_registration.login)
+
         self.exists(users_registration.login, users_registration.email)
+
         user = User(
             id=str(uuid4()),
             login=users_registration.login,

@@ -11,3 +11,4 @@ class ImageNotFound(ImageException):
         self.code = 404
         self.message = f"Image {image_id} not found"
         super().__init__(self.code, self.message)
+

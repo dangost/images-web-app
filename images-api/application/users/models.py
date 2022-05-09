@@ -1,6 +1,16 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from application.images.models import ImageView
+
+
+@dataclass(frozen=True)
+class UserView:
+    id: str
+    login: str
+    profile_description: str
+    images: list[ImageView]
+
 
 @dataclass(frozen=True)
 class User:

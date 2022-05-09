@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 config.json
 # C extensions
+/images-api/content/
 *.so
 .idea
 *.db

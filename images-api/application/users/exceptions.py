@@ -16,19 +16,25 @@ class UserNotFoundException(UserException):
 class IncorrectCreditsException(UserException):
     def __init__(self):
         self.code = 403
-        self.description = "Incorrect login or password"
-        super().__init__(self.code, self.description)
+        self.message = "Incorrect login or password"
+        super().__init__(self.code, self.message)
 
 
 class LoginAlreadyExists(UserException):
     def __init__(self, login: str):
         self.code = 409
-        self.description = f"Login {login} already exists"
-        super().__init__(self.code, self.description)
+        self.message = f"Login {login} already exists"
+        super().__init__(self.code, self.message)
+
+
+class InvalidLoginException(UserException):
+    def __init__(self, login: str):
+        self.code = 400
+        self.message = f"Invalid login {login}"
 
 
 class EmailAlreadyExists(UserException):
     def __init__(self, email: str):
         self.code = 409
-        self.description = f"Email {email} already exists"
-        super().__init__(self.code, self.description)
+        self.message = f"Email {email} already exists"
+        super().__init__(self.code, self.message)

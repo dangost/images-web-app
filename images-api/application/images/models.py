@@ -3,15 +3,24 @@ from datetime import datetime
 
 
 @dataclass(frozen=True)
+class ImageView:
+    id: str
+    source: str
+    description: str
+    upload_date: datetime
+
+
+@dataclass(frozen=True)
 class Image:
     id: str
-    user_login: str
+    login: str
+    description: str
+    source: str
+    data: bytes
     upload_date: datetime
-    image_link: str
 
 
 @dataclass(frozen=True)
 class ImageUpload:
-    login: str
-    data: str
-    upload_date: datetime | None
+    data_base64: str
+    description: str

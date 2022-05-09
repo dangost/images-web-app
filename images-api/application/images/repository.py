@@ -1,6 +1,6 @@
-from sqlalchemy import Table, MetaData, Column, String, ForeignKey, TIMESTAMP
+from sqlalchemy import Table, MetaData, Column, String, ForeignKey, BINARY, TIMESTAMP
 
-from application.images.models import Image
+from application.images.models import Image, ImageView
 from application.sql_config import SqlConfig
 
 IMAGES: Table
@@ -10,10 +10,12 @@ def describe_table(metadata: MetaData):
     return Table(
         "images",
         metadata,
-        Column("id", String, primary_key=True, nullable=True),
-        Column("user_login", String, ForeignKey("users.login"), nullable=True),
+        Column("id", String, primary_key=True, nullable=True, unique=True),
+        Column("login", String, ForeignKey("users.login"), nullable=True),
+        Column("description", String, nullable=True),
         Column("upload_date", TIMESTAMP, nullable=True),
-        Column("image_link", String, nullable=False)
+        Column("source", String, nullable=False),
+        Column("data", BINARY, nullable=False),
     )
 
 
@@ -26,43 +28,49 @@ class ImagesSqlRepo:
     def insert(self, image: Image) -> None:
         statement = IMAGES.insert().values(
             id=image.id,
-            user_login=image.user_login,
+            login=image.login,
+            description=image.description,
             upload_date=image.upload_date,
-            image_link=image.image_link
+            source=image.source,
+            data=image.data
         )
 
         with self.engine.begin() as connection:
             connection.execute(statement)
 
-    def get_by_id(self, image_id: str) -> Image:
+    def get_by_id(self, image_id: str) -> bytes | None:
         statement = IMAGES.select().where(IMAGES.c.id == image_id)
 
         with self.engine.connect() as connection:
             row = connection.execute(statement).one_or_none()
 
-        return self._row_to_image(row)
+        if not row:
+            return None
+        return row.data
 
-    def get_raw_by_id(self, image_id: str) -> str:
-        statement = IMAGES.select().where(IMAGES.c.id == image_id)
-
-        with self.engine.connect() as connection:
-            row = connection.execute(statement).one_or_none()
-
-        return row.image_data
-
-    def get_user_images(self, user_login: str) -> list[Image]:
-        statement = IMAGES.select().where(IMAGES.c.user_login == user_login)
+    def get_user_images(self, login: str) -> list[ImageView]:
+        statement = IMAGES.select().where(IMAGES.c.login == login)
 
         with self.engine.connect() as connection:
             rows = connection.execute(statement).all()
 
-        return [self._row_to_image(row) for row in rows]
+        return [self._row_to_image_view(row) for row in rows]
 
     @staticmethod
     def _row_to_image(row):
         return Image(
             id=row.id,
-            user_login=row.user_login,
+            login=row.login,
             upload_date=row.upload_date,
-            image_link=row.image_link
+            description=row.description,
+            source=row.source
+        ) if row else None
+
+    @staticmethod
+    def _row_to_image_view(row):
+        return ImageView(
+            id=row.id,
+            source=row.source,
+            description=row.description,
+            upload_date=row.upload_date
         ) if row else None
