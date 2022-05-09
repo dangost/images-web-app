@@ -28,7 +28,8 @@ class UsersService:
             id=str(uuid4()),
             login=users_registration.login,
             email=users_registration.email,
-            create_time=datetime.now(tz=timezone.utc)
+            create_time=datetime.now(tz=timezone.utc),
+            profile_description="",
         )
         password_hash = self._sha(users_registration.password)
         self.users_repo.insert(user, password_hash)

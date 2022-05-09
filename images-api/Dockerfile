@@ -2,7 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock .env /app/
+COPY pyproject.toml .env /app/
 COPY application/ /app/application
 
 RUN pip install poetry &&\

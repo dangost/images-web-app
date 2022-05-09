@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from application.common.exceptions import HttpException
 from application.app_config import AppConfig
 from application.images.controller import images_api
+from application.images.service import ImagesService
 from application.users.controller import users_api
 from application.users.service import UsersService
 
@@ -28,6 +29,7 @@ def init_blueprints(app: Flask):
 
 def init_services(app: Flask, config: AppConfig):
     app.config.users_service = UsersService(config.sql_config, config.jwt_secret)
+    app.config.images_service = ImagesService(config.sql_config)
 
 
 def error_handler(exc: HttpException):

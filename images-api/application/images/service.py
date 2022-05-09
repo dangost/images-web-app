@@ -11,6 +11,14 @@ class ImagesService:
     def __init__(self, sql_config: SqlConfig):
         self.sql_repo = ImagesSqlRepo(sql_config)
 
+    def get_image(self, image_id: str) -> Image:
+        image = self.sql_repo.get_by_id(image_id)
+        return image
+
+    def get_users_images(self, username: str) -> list[Image]:
+        images = self.sql_repo.get_user_images(username)
+        return images
+
     def post_image(self, image: bytes, login: str) -> Image:
         image = Image(
             id=str(uuid4()),
