@@ -4,8 +4,14 @@ from application.users.schema import user_login_schema, user_registration_schema
 
 users_api = Blueprint("users_controller_api", __name__)
 
+# todo get users pageable
 
-@users_api.route("/api/auth", methods=['POST'])
+# todo get user view
+
+# todo user follow to user
+
+
+@users_api.route("/api/login", methods=['POST'])
 def login():
     user_login = user_login_schema.load(request.json)
     jwt_token = app.config.users_service.login(user_login)

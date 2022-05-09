@@ -3,6 +3,17 @@ from marshmallow import Schema, fields, post_load
 from application.users.models import User, UserLoginDetails, UserRegistrationDetails
 
 
+class UserViewSchema(Schema):
+    id = fields.String(data_key="id", required=True)
+    login = fields.String(data_key="login", required=True)
+    description = fields.String(data_key="description", required=True)
+    # todo add images list
+
+    @post_load
+    def make(self, data, **kwargs):
+        return User(**data)
+
+
 class UserSchema(Schema):
     id = fields.String(data_key="id", required=True)
     login = fields.String(data_key="login", required=True)

@@ -13,7 +13,7 @@ def describe_table(metadata: MetaData):
         Column("id", String, primary_key=True, nullable=True),
         Column("user_login", String, ForeignKey("users.login"), nullable=True),
         Column("upload_date", TIMESTAMP, nullable=True),
-        Column("image_data", String, nullable=False)
+        Column("image_link", String, nullable=False)
     )
 
 
@@ -28,7 +28,7 @@ class ImagesSqlRepo:
             id=image.id,
             user_login=image.user_login,
             upload_date=image.upload_date,
-            image_data=image.image_data
+            image_link=image.image_link
         )
 
         with self.engine.begin() as connection:
@@ -64,5 +64,5 @@ class ImagesSqlRepo:
             id=row.id,
             user_login=row.user_login,
             upload_date=row.upload_date,
-            image_data=row.image_data
+            image_link=row.image_link
         ) if row else None

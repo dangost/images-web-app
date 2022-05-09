@@ -7,4 +7,11 @@ class Image:
     id: str
     user_login: str
     upload_date: datetime
-    image_data: str  # base64 string
+    image_link: str
+
+
+@dataclass(frozen=True)
+class ImageUpload:
+    login: str
+    data: str
+    upload_date: datetime | None

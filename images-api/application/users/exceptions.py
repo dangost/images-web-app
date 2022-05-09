@@ -13,10 +13,10 @@ class UserNotFoundException(UserException):
         super().__init__(404, self.message)
 
 
-class IncorrectPasswordException(UserException):
+class IncorrectCreditsException(UserException):
     def __init__(self):
         self.code = 403
-        self.description = "Incorrect password"
+        self.description = "Incorrect login or password"
         super().__init__(self.code, self.description)
 
 

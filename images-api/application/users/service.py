@@ -8,7 +8,7 @@ from jwt import DecodeError
 from application.common.exceptions import UnauthorizedException
 from application.sql_config import SqlConfig
 from application.users.exceptions import \
-    IncorrectPasswordException, \
+    IncorrectCreditsException, \
     UserNotFoundException, \
     LoginAlreadyExists, \
     EmailAlreadyExists
@@ -36,11 +36,10 @@ class UsersService:
         return user
 
     def login(self, users_login: UserLoginDetails) -> str:
-        real_password_hash = self.users_repo.get_password_hash(users_login.login)
         password_hash = self._sha(users_login.password)
-
-        if real_password_hash != password_hash:
-            raise IncorrectPasswordException()
+        user = self.users_repo.login_user(users_login.login, password_hash)
+        if not user:
+            raise IncorrectCreditsException()
 
         return self._create_jwt(users_login.login)
 
