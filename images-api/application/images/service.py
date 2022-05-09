@@ -6,6 +6,7 @@ from application.images.exceptions import ImageNotFound
 from application.images.models import Image, ImageUpload, ImageView
 from application.images.repository import ImagesSqlRepo
 from application.sql_config import SqlConfig
+from application.users.exceptions import UserNotFoundException
 from application.users.models import User
 
 
@@ -23,12 +24,15 @@ class ImagesService:
         return data
 
     def get_users_images(self, username: str) -> list[ImageView]:
-        images = self.sql_repo.get_user_images(username)
+        try:
+            images = self.sql_repo.get_user_images(username)
+        except Exception:
+            raise UserNotFoundException(username)
         return images
 
     def upload_image(self, upload_image: ImageUpload, user: User) -> Image:
         id_ = str(uuid4())
-        data = base64.b64encode(upload_image.data_base64.encode("UTF-8"))
+        data = base64.b64decode(upload_image.data_base64.encode("UTF-8"))
         image = Image(
             id=id_,
             login=user.login,

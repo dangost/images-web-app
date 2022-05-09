@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, post_load
 
 from application.images.schema import ImageViewSchema
-from application.users.models import User, UserLoginDetails, UserRegistrationDetails
+from application.users.models import User, UserLoginDetails, UserRegistrationDetails, UserView
 
 
 class UserViewSchema(Schema):
@@ -12,7 +12,7 @@ class UserViewSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
-        return User(**data)
+        return UserView(**data)
 
 
 class UserSchema(Schema):
@@ -48,3 +48,4 @@ class UserRegistrationSchema(Schema):
 user_schema = UserSchema()
 user_login_schema = UserLoginDetailsSchema()
 user_registration_schema = UserRegistrationSchema()
+user_view_schema = UserViewSchema()

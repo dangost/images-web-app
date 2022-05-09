@@ -26,7 +26,7 @@ class ImageSchema(Schema):
 
 
 class ImageUploadSchema(Schema):
-    data_base64 = fields.String(data_key="data_base64", required=True)
+    data_base64 = fields.String(data_key="data", required=True)
     description = fields.String(data_key="description", required=True)
 
     @post_load

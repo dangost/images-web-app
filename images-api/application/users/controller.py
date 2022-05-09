@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app as app
 
-from application.users.schema import user_login_schema, user_registration_schema, user_schema
+from application.common.converters import to_user_view
+from application.users.schema import user_login_schema, user_registration_schema, user_schema, user_view_schema
 
 users_api = Blueprint("users_controller_api", __name__, url_prefix="/api")
 
@@ -30,8 +31,25 @@ def registration():
     return jsonify(user_schema.dump(user)), 200
 
 
+@users_api.route("/user/<login_>", methods=['GET'])
+def user_view(login_: str):
+    user = app.config.users_service.get_by_login(login_)
+    images = app.config.images_service.get_users_images(user.login)
+
+    user_view_obj = to_user_view(user, images)
+
+    result = user_view_schema.dump(user_view_obj)
+
+    return jsonify(result)
+
+
 @users_api.route("/me", methods=["GET"])
 def me():
     user = app.config.users_service.auth(request.headers)
+    images = app.config.images_service.get_users_images(user.login)
 
-    return jsonify({"login": user.login, "status": "Authorized"})
+    user_view_obj = to_user_view(user, images)
+
+    result = user_view_schema.dump(user_view_obj)
+
+    return jsonify(result)
