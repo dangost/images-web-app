@@ -1,8 +1,8 @@
-all: app docker
+all: app
 
 app:
 	pyinstaller --onefile application/app.py
-	cp .env ./dist/
+	cp ./deployment/app/config.json ./dist/
 
 docker:
 	docker build -t dangost/images-api .
