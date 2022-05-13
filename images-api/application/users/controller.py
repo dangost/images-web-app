@@ -7,13 +7,9 @@ users_api = Blueprint("users_controller_api", __name__, url_prefix="/api")
 
 # todo get users pageable
 
-# todo get user view
-
 # todo user follow to user
 
-
-# @users_api.route("")
-# def user_view():
+# todo todo change profile
 
 
 @users_api.route("/login", methods=['POST'])

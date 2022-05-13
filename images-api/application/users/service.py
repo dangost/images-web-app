@@ -23,6 +23,11 @@ class UsersService:
         self._jwt_secret = jwt_secret
 
     def create(self, users_registration: UserRegistrationDetails) -> User:
+        """
+        :raise InvalidLoginException
+        :param users_registration: Model with registration credits
+        :return: New user
+        """
         if len(users_registration.login) < 3:
             raise InvalidLoginException(users_registration.login)
 
@@ -40,6 +45,11 @@ class UsersService:
         return user
 
     def login(self, users_login: UserLoginDetails) -> str:
+        """
+        Get login and password, compare it to return jwt token
+        :param users_login: Model with login and password
+        :return: jwt token: string
+        """
         password_hash = self._sha(users_login.password)
         user = self.users_repo.login_user(users_login.login, password_hash)
         if not user:
@@ -49,7 +59,9 @@ class UsersService:
 
     def get_by_id(self, user_id: str) -> User:
         """
-        ::raises UserNotFoundException
+        :param user_id id of user you want to get
+        :raises UserNotFoundException
+        :return User
         """
         user = self.users_repo.get_by_id(user_id)
         if not user:
@@ -58,7 +70,9 @@ class UsersService:
 
     def get_by_login(self, login: str) -> User:
         """
-        ::raises UserNotFoundException
+        :param login of user
+        :raises UserNotFoundException
+        :return User from database
         """
         user = self.users_repo.get_by_login(login)
         if not user:
@@ -67,8 +81,9 @@ class UsersService:
 
     def exists(self, login: str, email: str) -> None:
         """
-        ::raise LoginAlreadyExists
-        ::raise EmailAlreadyExists
+        Check that user exists
+        :raise LoginAlreadyExists
+        :raise EmailAlreadyExists
         """
         if self.users_repo.get_by_login(login):
             raise LoginAlreadyExists(login)
@@ -77,6 +92,12 @@ class UsersService:
             raise EmailAlreadyExists(email)
 
     def auth(self, headers: dict) -> User:
+        """
+        Decrypt jwt token to get user
+        :raise UnauthorizedException
+        :param headers: headers with jwt token
+        :return: Authed user
+        """
         try:
             token = headers['Authorization']
             payload = jwt.decode(token, self._jwt_secret, algorithms=["HS256"])

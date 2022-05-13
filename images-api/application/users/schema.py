@@ -7,7 +7,7 @@ from application.users.models import User, UserLoginDetails, UserRegistrationDet
 class UserViewSchema(Schema):
     id = fields.String(data_key="id", required=True)
     login = fields.String(data_key="login", required=True)
-    description = fields.String(data_key="description", required=True)
+    profile_description = fields.String(data_key="description", required=True)
     images = fields.List(fields.Nested(ImageViewSchema))
 
     @post_load

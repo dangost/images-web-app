@@ -15,6 +15,11 @@ class ImagesService:
         self.sql_repo = ImagesSqlRepo(sql_config)
 
     def get_image(self, image_id: str) -> bytes:
+        """
+        Get image from db by Id
+        :param image_id: uuid id of image
+        :return: bytearray of image
+        """
         try:
             data = self.sql_repo.get_by_id(image_id)
         except Exception:
@@ -24,6 +29,11 @@ class ImagesService:
         return data
 
     def get_users_images(self, username: str) -> list[ImageView]:
+        """
+
+        :param username:
+        :return:
+        """
         try:
             images = self.sql_repo.get_user_images(username)
         except Exception:

@@ -5,6 +5,10 @@ from application.images.schema import image_upload_schema, image_schema
 images_api = Blueprint("images_controller_api", __name__, url_prefix="/api/images")
 
 
+# todo like post
+
+# todo change image description
+
 @images_api.route("<_id>", methods=['GET'])
 def raw_image(_id: str):
     data = app.config.images_service.get_image(_id)
