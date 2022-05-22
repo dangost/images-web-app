@@ -1,0 +1,164 @@
+
+*{
+    font-family: "Ubuntu";
+}
+
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+  }
+  
+  .searchTerm {
+    width: 100%;
+    border: 3px solid #696767;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+  }
+  
+  .searchTerm:focus{
+    color: #696767;
+  }
+  
+  .searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #696767;
+    background: #696767;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  /*Resize the wrap to see the search bar change!*/
+  .wrap{
+    width: 20%;
+    
+  }
+
+  .nav-list{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .header-container{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(134, 131, 131);
+    
+  }
+
+  .container{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .site-name{
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    height: 0 auto;
+  }
+
+  .logo{
+   height: 0 auto;
+  }
+
+  .search{
+    height: 0 auto;
+  }
+
+
+.main-container{
+  margin-top: 40px;
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: space-between;
+}
+.image-box{
+  width: 480px;
+  height: 600px;
+  margin: 0;
+  margin-bottom: 40px;
+}
+  .main-img{
+    width: 100%; /* Ширина изображений */
+    height: 100%; /* Высота изображении */
+    object-fit: cover; /* Вписываем фотографию в область */
+  }
+
+  .footer-text{
+    text-align: center;
+    font-weight: bold  ;
+  }
+  .minimized {
+    
+    cursor: pointer;
+    border: 1px solid #FFF;
+  }
+  .minimized:hover {
+    border: 1px solid rgb(10, 10, 8);
+  }
+  /* увеличенная картинка */
+  #magnify {
+    display: none;
+    position:fixed;
+    max-width: 900px;
+    height: auto;
+    z-index: 9999;
+  }
+
+  .fz__minimized {
+    width: 300px;
+    cursor: pointer;
+    border: 1px solid #FFF;
+  }
+  
+  #magnify img {
+    width: 100%;
+  }
+  /* затемняющий фон */
+  #overlay {
+    display: none;
+    background: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    z-index: 9990;
+  }
+  /* кнопка закрытия */
+  #close-popup {
+    width: 30px;
+    height: 30px;
+    background:local;
+    
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  #close-popup i {
+    width: 30px;
+    height: 30px;
+    background: url(https://cdn-icons-png.flaticon.com/512/61/61155.png) no-repeat center center;
+    background-size: 16px 16px;
+    display: block;
+    border-radius: 50%;
+  }
+
+  #close-popup i:hover{
+    background-color: #fff;
+    opacity: 0.4;
+  }
+ 

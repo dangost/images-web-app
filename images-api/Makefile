@@ -3,6 +3,7 @@ all: app
 app:
 	pyinstaller --onefile application/app.py
 	cp ./deployment/app/config.json ./dist/
+	cp -r views ./dist
 
 docker:
 	docker build -t dangost/images-api .

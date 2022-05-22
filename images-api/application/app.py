@@ -4,6 +4,8 @@ from application.common.exceptions import HttpException
 from application.app_config import AppConfig
 from application.images.controller import images_api
 from application.images.service import ImagesService
+from application.pages.js_controller import js_controller
+from application.pages.controller import pages
 from application.users.controller import users_api
 from application.users.service import UsersService
 
@@ -25,6 +27,8 @@ def create_app() -> Flask:
 def init_blueprints(app: Flask):
     app.register_blueprint(users_api)
     app.register_blueprint(images_api)
+    app.register_blueprint(pages)
+    app.register_blueprint(js_controller)
 
 
 def init_services(app: Flask, config: AppConfig):

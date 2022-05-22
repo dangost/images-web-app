@@ -31,6 +31,7 @@ class InvalidLoginException(UserException):
     def __init__(self, login: str):
         self.code = 400
         self.message = f"Invalid login {login}"
+        super().__init__(self.code, self.message)
 
 
 class EmailAlreadyExists(UserException):
