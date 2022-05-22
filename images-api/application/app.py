@@ -20,6 +20,8 @@ def create_app() -> Flask:
     init_services(app, app_config)
     app.config.startup = app_config.startup_config
 
+    app.config.views_folder = app_config.views_folder
+
     app_config.sql_config.metadata.create_all(checkfirst=True)
     return app
 

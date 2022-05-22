@@ -22,6 +22,8 @@ class AppConfig:
         self.connection = config_json.get(CONFIG_DB_CONNECTION_STRING, "sqlite:///../data.db")
         self.sql_config = SqlConfig(self.connection)
 
+        self.views_folder = str(os.getenv("VIEWS_FOLDER", ".")).replace('\\', '/')
+
         self.jwt_secret = config_json.get(CONFIG_JWT_SECRET, None)
         if not self.jwt_secret:
             raise Exception("No JWT Secret")

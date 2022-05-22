@@ -1,13 +1,15 @@
-from flask import Blueprint
+from flask import Blueprint, current_app as app
 
 pages = Blueprint("pages", __name__, url_prefix="/")
 
 
 @pages.route("/signup")
 def signup():
-    return open("/Users/gost/pets/images-web-app/images-api/views/signup.html").read()
+    path = app.config.views_folder + "/signup.html"
+    return open(path, encoding="UTF-8").read()
 
 
 @pages.route("/<login>")
 def profile(login: str):
-    return open("/Users/gost/pets/images-web-app/images-api/views/profile.html").read()
+    path = app.config.views_folder + "/profile.html"
+    return open(path, encoding="UTF-8").read()

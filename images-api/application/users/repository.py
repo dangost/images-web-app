@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy import Table, MetaData, Column, String, TIMESTAMP
 
 from application.sql_config import SqlConfig
@@ -38,7 +40,7 @@ class UsersSqlRepo:
         with self.engine.begin() as connection:
             connection.execute(statement)
 
-    def get_by_login(self, login: str) -> User | None:
+    def get_by_login(self, login: str) -> Optional[User]:
         statement = USERS.select().where(USERS.c.login == login)
 
         with self.engine.begin() as connection:
@@ -46,7 +48,7 @@ class UsersSqlRepo:
 
         return self._row_to_user(row)
 
-    def get_by_id(self, _id: str) -> User | None:
+    def get_by_id(self, _id: str) -> Optional[User]:
         statement = USERS.select().where(USERS.c.id == _id)
 
         with self.engine.begin() as connection:
@@ -54,7 +56,7 @@ class UsersSqlRepo:
 
         return self._row_to_user(row)
 
-    def get_by_email(self, email: str) -> User | None:
+    def get_by_email(self, email: str) -> Optional[User]:
         statement = USERS.select().where(USERS.c.email == email)
 
         with self.engine.begin() as connection:
@@ -62,7 +64,7 @@ class UsersSqlRepo:
 
         return self._row_to_user(row)
 
-    def login_user(self, login: str, password_hash: str) -> User | None:
+    def login_user(self, login: str, password_hash: str) -> Optional[User]:
         statement = USERS.select().where(
             USERS.c.login == login,
             USERS.c.password_hash == password_hash
@@ -74,7 +76,7 @@ class UsersSqlRepo:
         return self._row_to_user(row)
 
     @staticmethod
-    def _row_to_user(row) -> User | None:
+    def _row_to_user(row) -> Optional[User]:
         return User(
             id=row.id,
             login=row.login,

@@ -1,3 +1,5 @@
+from typing import Union, Optional
+
 from sqlalchemy import Table, MetaData, Column, String, ForeignKey, BINARY, TIMESTAMP
 
 from application.images.models import Image, ImageView
@@ -38,7 +40,7 @@ class ImagesSqlRepo:
         with self.engine.begin() as connection:
             connection.execute(statement)
 
-    def get_by_id(self, image_id: str) -> bytes | None:
+    def get_by_id(self, image_id: str) -> Optional[bytes]:
         statement = IMAGES.select().where(IMAGES.c.id == image_id)
 
         with self.engine.connect() as connection:
