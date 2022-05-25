@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app as app, make_response
 
-from application.images.schema import image_upload_schema, image_schema
+from application.images.schema import image_upload_schema, image_schema, image_view_schema
 
 images_api = Blueprint("images_controller_api", __name__, url_prefix="/api/images")
 
@@ -15,6 +15,13 @@ def raw_image(_id: str):
     response = make_response(data)
     response.headers.set('Content-Type', 'image/jpeg')
     return response
+
+
+@images_api.route("/feed", methods=['GET'])
+def get_feed():
+    posts = app.config.images_service.feed()
+    response = image_view_schema.dump(posts, many=True)
+    return jsonify(response)
 
 
 @images_api.route("", methods=['POST'])

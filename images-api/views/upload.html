@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Upload</title>
+</head>
+
+<body>
+    <input type='file' />
+    <br><img id="uploadedImage" src="#" width="500">
+    <br><br>
+    <input placeholder="Description" id="descriptionInput"/>
+    <button onclick="upload()">Upload</button>
+    <br>
+    <a href="/"><button>Go back</button></a>
+</body>
+
+<script>
+    function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+    async function readBlob(url) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const reader = new FileReader();
+    await new Promise((resolve, reject) => {
+      reader.onload = resolve;
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+    return reader.result.replace(/^data:.+;base64,/, '')
+  }
+
+    async function upload(){
+        const img = document.getElementById("uploadedImage");
+
+        const base = await readBlob(img.src);
+        
+        const auth = getCookie("imagesAuth");
+
+        const description = document.getElementById("descriptionInput").value;
+
+        const response = await fetch('api/images', {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': auth
+            },
+
+            body: JSON.stringify({
+                'data': base,
+                'description': description
+            })
+        })
+
+        const statusCode = await response.status;
+
+        if (statusCode == 200){
+            alert("Upload");
+        }
+        else {
+            alert("Error");
+        }
+    }
+
+
+
+    window.addEventListener('load', function() {
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            var img = document.querySelector('img');
+            img.onload = () => {
+            }
+            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        }
+    });
+    });
+</script>
+
+</html>

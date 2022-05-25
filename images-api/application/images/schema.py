@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, post_load
 
-from application.images.models import Image, ImageUpload
+from application.images.models import Image, ImageUpload, ImageView
 
 
 class ImageViewSchema(Schema):
@@ -11,7 +11,7 @@ class ImageViewSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
-        return Image(**data)
+        return ImageView(**data)
 
 
 class ImageSchema(Schema):

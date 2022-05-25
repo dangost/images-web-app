@@ -1,11 +1,16 @@
 NAME := $(shell uname -s)
 
-ifeq ($(NAME), Linux, Darwin)
+ifeq ($(NAME), Linux)
 	BUILD := build_app
 	CLEAN := clean_unix
 else
-	BUILD := build_app_win
-	CLEAN := clean_win
+	ifeq ($(NAME), Darwin)
+		BUILD := build_app
+		CLEAN := clean_unix
+	else
+		BUILD := build_app_win
+		CLEAN := clean_win
+	endif
 endif
 
 all: $(BUILD)

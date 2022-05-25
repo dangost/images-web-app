@@ -28,9 +28,15 @@ class ImagesService:
             raise ImageNotFound(image_id)
         return data
 
+    def feed(self):
+        try:
+            posts = self.sql_repo.get_feed()
+        except Exception:
+            return []
+        return posts
+
     def get_users_images(self, username: str) -> list[ImageView]:
         """
-
         :param username:
         :return:
         """

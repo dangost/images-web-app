@@ -50,6 +50,14 @@ class ImagesSqlRepo:
             return None
         return row.data
 
+    def get_feed(self) -> list[ImageView]:
+        statement = IMAGES.select()
+
+        with self.engine.connect() as connection:
+            rows = connection.execute(statement).all()
+
+        return [self._row_to_image_view(row) for row in rows]
+
     def get_user_images(self, login: str) -> list[ImageView]:
         statement = IMAGES.select().where(IMAGES.c.login == login)
 
